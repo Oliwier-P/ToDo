@@ -1,25 +1,24 @@
-import React from 'react'
-import './ToDo.css';
+import React, { useEffect } from 'react'
+import './App.css';
 import Task from './components/Task';
 import { useState } from 'react';
 import uuid from 'react-uuid';
 // react uuid - Universal Unique Identifier
 // Oliwier Bomba Pąsko
 
-const Lista: { name: string, description: string, done: boolean, date: string, id: string }[] = []
+const Lista: { name: string, description: string, done: boolean, date: string, id: string }[] = [];
 
 export default function App() {
 
     // now - date
     // newTask - input value
     // newDes - input description
-    // taskList - list of tasks
+    // list - list of tasks
     
     const now = new Date();
     const [newTask, setNewTask] = useState("");
     const [newDes, setNewDes] = useState("");
     const [list, setList] = useState(Lista);   
-    const [localStorageList, setLocalStorageList] = useState(Lista);
 
     // function that adds a new task
     const AddTask = () => {
@@ -31,29 +30,20 @@ export default function App() {
 
             setNewTask('');
             setNewDes('');
-            setList(newList)
+            setList(newList);
         }
     }
 
-   
+    // if saved tasks in localstorage exists
+   const ReadLocalStorage = () => {
+        if( localStorage.getItem("TaskList") !== null ){
+            setList( JSON.parse(localStorage.getItem("TaskList") || '') );
+        };
+   }
 
-    // const filterListAll = () => {
-         
-        
-    // }
-
-    // const filterListDone = () => {
-        
-    // }
-
-    // const filterListUndone = () => {
-        
-    // }
-
-    // Filtrowanie
-    // Dodawnie do listu
-    // localstorage
-    // buttonsy edit i delete oraz done i todo
+    useEffect(() => {
+        ReadLocalStorage();
+    },[])
 
     return (
         <>
@@ -74,8 +64,8 @@ export default function App() {
                 <div className="tasks-div">
                     <ul>
                         
-                        {/* <Task value={list} /> */}
-
+                        { list.map( (local) => <Task key={local.id} value={local} />)}
+                       
                     </ul>
                 </div>
             </div>
