@@ -114,15 +114,32 @@ export default function App() {
                         <input type="text" className='input' placeholder='New Task' value={newTask} onChange={e => setNewTask(e.target.value)} />
                         <textarea className='input opis' placeholder='Description' value={newDes} onChange={d => setNewDes(d.target.value)} />
                         <input type="date" min={dateStart} value={dateEnd} onChange={(e) => setDateEnd(e.target.value)}/>
-                        <Button className='btn-add-task' onClick={() => AddTask()} >Add New Task</Button>
+
+                        <Button className='btn-add-task' onClick={() => AddTask()} >
+                            Add New Task
+                        </Button>
                     </div>
 
                     <div className="filter-div">
-                        <Button onClick={() => NewestDateFilter()} >Newest</Button>
-                        <Button onClick={() => OldestDateFilter()} >Oldest</Button>
-                        <Button onClick={() => NameFilter()} >Name</Button>
-                        <Button onClick={() => DoneFilter()}>Done</Button>
-                        <Button onClick={() => ToDoFilter()}>ToDo</Button>
+                        <Button onClick={() => NewestDateFilter()} >
+                            Newest
+                        </Button>
+
+                        <Button onClick={() => OldestDateFilter()} >
+                            Oldest
+                        </Button>
+
+                        <Button onClick={() => NameFilter()} >
+                            Name
+                        </Button>
+
+                        <Button onClick={() => DoneFilter()}>
+                            Done
+                        </Button>
+                        
+                        <Button onClick={() => ToDoFilter()}>
+                            ToDo
+                        </Button>
                     </div>
 
                     <div className="tasks-div">
