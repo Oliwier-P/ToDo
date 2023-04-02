@@ -105,6 +105,18 @@ export default function App() {
         ReadLocalStorage();
     },[])
 
+
+    // searchbar
+
+    // Today
+    // Upcoming
+
+    // kategorie
+    // ulubione
+
+    // dokładniejsza data z godziną
+    // zmiana chechboxa na np ( Done, Undone, Hold, progress )
+    // frontend
     return (
         <>
             <ChakraProvider>
