@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState, useRef } from 'react'
 import { tasksList } from '../Types';
-import { ChakraProvider, Checkbox, Button, useDisclosure, Input } from '@chakra-ui/react';
+import { ChakraProvider, Checkbox, Button, useDisclosure, Input, Textarea } from '@chakra-ui/react';
 import { FaTrashAlt } from 'react-icons/all';
 import { AiFillEdit } from 'react-icons/all';
 import {
@@ -19,16 +19,22 @@ interface TaskProps {
 
 export default function Task({value}: TaskProps) {
 
+    // states to make description and name shorter
     const [shortDescription, setShortDescription] = useState("");
     const [shortName, setShortName] = useState("");
 
+    // states to edit task
     const [editName, setEditName] = useState(value.name);
     const [editDescription, setEditDescription] = useState(value.description);
     const [editDate, setEditDate] = useState(value.date_end);
 
+    // states to open and close edit and delete dialog
     const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
     const cancelRef = useRef(null);
+
+    // state to check if task is done
+    const [box, setBox] = useState<boolean>(value.done);
 
     const TaskFunction = (type: string) => {
         
@@ -51,7 +57,7 @@ export default function Task({value}: TaskProps) {
                 break;
             case "check":
                 // change object data
-                storedData[objIndex].done = !storedData[objIndex].done;
+                storedData[objIndex].done = !box;
                 break;
             default:
                 break;
@@ -64,10 +70,12 @@ export default function Task({value}: TaskProps) {
         window.location.reload();
     }
 
-    // if description is too long, and make it beauty
+    // if name & description is too long, and make it beauty
+    // set box state to value.done, to set Checkbox isChecked ( always equal value.done ) 
     useEffect(() => {
         setShortDescription(() => value.description.length >= 30 ? value.description.substring(0, 30) + "..." : value.description); 
         setShortName(() => value.name.length >= 25 ? value.name.substring(0, 25) + "..." : value.name);  
+        setBox(value.done);
     },[]);
     return (
         <>
@@ -75,13 +83,15 @@ export default function Task({value}: TaskProps) {
                 <div className='task'>
                     <span>{shortName}</span>
                     <span>{shortDescription}</span>
-                    <span>{value.date_start} to {value.date_end}</span>
-                    
+                    <span>{value.date_start}</span>
+                    <span>-</span>
+                    <span>{value.date_end}</span>
                     <span>{value.done}</span>
                     <Checkbox 
                         colorScheme='blue' 
                         border='black' 
                         size='md' 
+                        isChecked={box}
                         onChange={() => TaskFunction("check")}
                     >  
                     </Checkbox>
@@ -119,7 +129,7 @@ export default function Task({value}: TaskProps) {
                                     Name:
                                     <Input type="text" value={editName} onChange={(n) => setEditName(n.target.value)} />
                                     Description:
-                                    <Input type="text" value={editDescription} onChange={(d) => setEditDescription(d.target.value)} />
+                                    <Textarea value={editDescription} onChange={(d) => setEditDescription(d.target.value)} />
                                     End date:
                                     <Input type="date" value={editDate} onChange={(e) => setEditDate(e.target.value)} />
                             </AlertDialogBody>        

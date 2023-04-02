@@ -6,6 +6,7 @@ import uuid from 'react-uuid';
 import moment from 'moment';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Button, Input, Textarea } from '@chakra-ui/react';
+import { tasksList } from './Types';
 
 // react uuid - Universal Unique Identifier ( long char )
 // Oliwier Bomba Pąsko
@@ -25,6 +26,8 @@ export default function App() {
     const dateStart = moment().format('YYYY-MM-D');
     const [dateEnd, setDateEnd] = useState("");
     const [list, setList] = useState(Lista);   
+
+    const [filter, setFilter] = useState(Lista);
 
     // function that adds a new task
     const AddTask = () => {
@@ -49,10 +52,10 @@ export default function App() {
             setList(newList);
         }
     }
-    
+
     // sort tasks list and localstorage from 'date' newest task
     const NewestDateFilter = () => {
-        const sortedList = list.sort( (t1, t2) => (t1.date_end < t2.date_end) ? 1 : (t1.date_end > t2.date_end) ? -1 : 0 );
+        const sortedList = list.sort( (t1, t2) => (t1.date_start < t2.date_start) ? 1 : (t1.date_start > t2.date_start) ? -1 : 0 );
 
         localStorage.setItem("TaskList", JSON.stringify( sortedList ));
         window.location.reload();
@@ -60,7 +63,7 @@ export default function App() {
 
     // sort tasks list and localstorage from 'date' oldest task
     const OldestDateFilter = () => {
-        const sortedList = list.sort( (t1, t2) => (t1.date_end < t2.date_end) ? -1 : (t1.date_end > t2.date_end) ? 1 : 0 );
+        const sortedList = list.sort( (t1, t2) => (t1.date_start < t2.date_start) ? -1 : (t1.date_start > t2.date_start) ? 1 : 0 );
 
         localStorage.setItem("TaskList", JSON.stringify( sortedList ));
         window.location.reload();
@@ -68,8 +71,7 @@ export default function App() {
 
     // sort tasks list and localstorage according to name 'title'
     const NameFilter = () => {
-        const sortedList = list.sort(
-            (t1, t2) => (t1.name < t2.name) ? -1 : (t1.name > t2.name) ? 1 : 0);
+        const sortedList = list.sort( (t1, t2) => (t1.name.toLocaleLowerCase() < t2.name.toLocaleLowerCase()) ? -1 : (t1.name.toLocaleLowerCase() > t2.name.toLocaleLowerCase()) ? 1 : 0);
 
         localStorage.setItem("TaskList", JSON.stringify( sortedList ));
         window.location.reload();
@@ -77,8 +79,7 @@ export default function App() {
 
     // sort tasks list and localstorage only done tasks and according to newest 'date' 
     const DoneFilter = () => {
-        const sortedList = list.sort(
-            (t1, t2) => (t1.date_end < t2.date_end && t1.done === true) ? 1 : (t1.date_end > t2.date_end) ? -1 : 0);
+        const sortedList = list.sort( (t1, t2) => (t1.done < t2.done) ? 1 : (t1.done > t2.done) ? -1 : 0);
 
         localStorage.setItem("TaskList", JSON.stringify( sortedList ));
         window.location.reload();
@@ -86,13 +87,11 @@ export default function App() {
 
     // sort tasks list and localstorage only todo tasks and according to newest 'date' 
     const ToDoFilter = () => {
-        const sortedList = list.sort(
-            (t1, t2) => (t1.date_end < t2.date_end) ? 1 : (t1.date_end > t2.date_end) ? -1 : 0);
+        const sortedList = list.sort( (t1, t2) => (t1.done < t2.done) ? -1 : (t1.done > t2.done) ? 1 : 0);
 
-        console.log("Products sorted based on descending order of their prices are:")
-        console.log(sortedList);
+        localStorage.setItem("TaskList", JSON.stringify( sortedList ));
+        window.location.reload();
     }
-
 
     // check if saved tasks in localstorage exists
    const ReadLocalStorage = () => {
