@@ -105,7 +105,6 @@ export default function App() {
         ReadLocalStorage();
     },[])
 
-
     // searchbar
 
     // Today
@@ -126,7 +125,7 @@ export default function App() {
                         <textarea className='input opis' placeholder='Description' value={newDes} onChange={d => setNewDes(d.target.value)} />
                         <input type="date" min={dateStart} value={dateEnd} onChange={(e) => setDateEnd(e.target.value)}/>
 
-                        <Button className='btn-add-task' onClick={() => AddTask()} >
+                        <Button className='btn-add-task' bg="rgb(67, 167, 255)" color="white"  onClick={() => AddTask()} >
                             Add New Task
                         </Button>
                     </div>

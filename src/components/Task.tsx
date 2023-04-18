@@ -84,7 +84,7 @@ export default function Task({value}: TaskProps) {
                     <span>{shortName}</span>
                     <span>{shortDescription}</span>
                     <span>{value.date_start}</span>
-                    <span>-</span>
+                    <span>to</span>
                     <span>{value.date_end}</span>
                     <span>{value.done}</span>
                     <Checkbox 
