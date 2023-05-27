@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import './App.css';
 import Task from './components/Task';
 import { useState } from 'react';
 import uuid from 'react-uuid';
@@ -111,7 +110,7 @@ export default function App() {
     // Upcoming
 
     // kategorie
-    // ulubione
+    // piority
 
     // dokładniejsza data z godziną
     // zmiana chechboxa na np ( Done, Undone, Hold, progress )
